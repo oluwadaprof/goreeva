@@ -1,9 +1,5 @@
-import classes from "../styles/Signup.module.css";
-import Form from "../components/Form";
+import SignupForm from "../components/SignupForm";
 import Illustration from "../components/Illustration";
-import TextInput from "../components/TextInput";
-import Checkbox from "../components/Checkbox";
-import Button from '../components/Button'
 
 export default function Signup() {
   return (
@@ -11,25 +7,7 @@ export default function Signup() {
       <h1>Create an Account</h1>
       <div className="column">
         <Illustration />
-        <Form className={`${classes.signup} form`}>
-          <TextInput type="text" placeholder="Enter Name" icon="person" />
-          <TextInput
-            type="email"
-            placeholder="Enter Email"
-            icon="alternate_email"
-          />
-          <TextInput type="password" placeholder="Enter Password" icon="lock" />
-          <TextInput
-            type="password"
-            placeholder="Confirm Password"
-            icon="lock_clock"
-          />
-          <Checkbox text="I agree to the Terms &amp; Conditions" />
-          <Button><span>Submit Now</span></Button>
-          <div className="info">
-              Already have an account? <a href="login.html">Login</a> instead.
-            </div>
-        </Form>
+        <SignupForm />
       </div>
     </>
   );
