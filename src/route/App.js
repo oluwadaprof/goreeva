@@ -10,6 +10,7 @@ import { PrivateRoute } from "./PrivateRoute";
 import { PublicRoute } from "./PublicRoute";
 import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "../contexts/AuthContext";
+import CreateQuiz from "../pages/CreateQuiz";
 
 function App() {
   return (
@@ -25,6 +26,8 @@ function App() {
           <Route element={<PrivateRoute />}>
             <Route path="/quiz" element={<Quizz />} />
             <Route path="/result" element={<Result />} />
+            <Route path="/create-quiz" element={<CreateQuiz />} />
+
           </Route>
 
           <Route path="*" element={<Error />} />

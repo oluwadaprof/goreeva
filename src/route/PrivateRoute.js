@@ -5,6 +5,5 @@ import Login from "../pages/Login";
 export function PrivateRoute() {
   const { currentUser } = useAuth();
   
-
   return currentUser ? <Outlet /> : <Login/>;
 }
