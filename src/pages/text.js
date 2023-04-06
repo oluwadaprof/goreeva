@@ -158,3 +158,70 @@ const CreateQuiz = (props) => {
 };
 
 export default withQuizContext(CreateQuiz);
+
+//   const [quizName, setQuizName] = useState("");
+//   const [quizDescription, setQuizDescription] = useState("");
+//   const [timeLimit, setTimeLimit] = useState("");
+//   const [points, setPoints] = useState("");
+//   const [questions, setQuestions] = useState([{ text: "", options: [] }]);
+
+//   const handleQuizNameChange = (event) => {
+//     setQuizName(event.target.value);
+//   };
+
+//   const handleQuizDescriptionChange = (event) => {
+//     setQuizDescription(event.target.value);
+//   };
+
+//   const handleTimeLimitChange = (event) => {
+//     setTimeLimit(event.target.value);
+//   };
+
+//   const handlePointsChange = (event) => {
+//     setPoints(event.target.value);
+//   };
+
+//   const handleQuestionTextChange = (event, questionIndex) => {
+//     const newQuestions = [...questions];
+//     newQuestions[questionIndex].text = event.target.value;
+//     setQuestions(newQuestions);
+//   };
+
+//   const handleAddQuestion = () => {
+//     setQuestions([...questions, { text: "", options: [] }]);
+//   };
+
+//   const handleDeleteQuestion = (questionIndex) => {
+//     const newQuestions = [...questions];
+//     newQuestions.splice(questionIndex, 1);
+//     setQuestions(newQuestions);
+//   };
+
+//   const handleOptionChange = (event, questionIndex, optionIndex) => {
+//     const newQuestions = [...questions];
+//     newQuestions[questionIndex].options[optionIndex] = event.target.value;
+//     setQuestions(newQuestions);
+//   };
+
+//   const handleAddOption = (questionIndex) => {
+//     const newQuestions = [...questions];
+//     newQuestions[questionIndex].options.push("");
+//     setQuestions(newQuestions);
+//   };
+
+//   const handleDeleteOption = (questionIndex, optionIndex) => {
+//     const newQuestions = [...questions];
+//     newQuestions[questionIndex].options.splice(optionIndex, 1);
+//     setQuestions(newQuestions);
+//   };
+
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+//     createQuiz({
+//       name: quizName,
+//       description: quizDescription,
+//       timeLimit: quizTimeLimit,
+//       points: quizPoints,
+//       questions: questions,
+//     });
+//   };

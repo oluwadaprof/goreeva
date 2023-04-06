@@ -10,11 +10,13 @@ import { PrivateRoute } from "./PrivateRoute";
 import { PublicRoute } from "./PublicRoute";
 import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "../contexts/AuthContext";
+import { QuizProvider } from "../contexts/QuizContext";
 import CreateQuiz from "../pages/CreateQuiz";
 
 function App() {
   return (
     <AuthProvider>
+      <QuizProvider>
       <Layout>
         <Routes>
           <Route exact path="/" element={<Home />} />
@@ -33,6 +35,7 @@ function App() {
           <Route path="*" element={<Error />} />
         </Routes>
       </Layout>
+      </QuizProvider>
     </AuthProvider>
   );
 }

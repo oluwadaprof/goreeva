@@ -1,8 +1,14 @@
-import React, { useState, useEffect, createContext } from "react";
-import { getDatabase, ref, onValue, off, set } from "firebase/database";
-// import firebaseApp from "../firebase";
+import React, { useState, useEffect,  useContext } from "react";
+import { getDatabase, ref, onValue, off } from "firebase/database";
+import { getFirestore } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
+
 import "../firebase";
-const QuizContext = createContext();
+const QuizContext = React.createContext();
+
+export function useQuizContext() {
+  return useContext(QuizContext);
+}
 
 export const QuizProvider = ({ children }) => {
   const [quizName, setQuizName] = useState("");
@@ -10,6 +16,7 @@ export const QuizProvider = ({ children }) => {
   const [quizPoints, setQuizPoints] = useState(0);
   const [quizTimeLimit, setQuizTimeLimit] = useState(0);
   const [questions, setQuestions] = useState([]);
+  const [correctOptions, setCorrectOptions] = useState(Array(questions.length).fill(-1));
 
   useEffect(() => {
     const db = getDatabase();
@@ -49,8 +56,9 @@ export const QuizProvider = ({ children }) => {
 
   const handleAddQuestion = () => {
     const newQuestions = [...questions];
-    newQuestions.push({ text: "", options: ["", "", "", ""] });
+    newQuestions.push({ text: "", options: ["", "", "", ""] , correctOption: -1});
     setQuestions(newQuestions);
+    setCorrectOptions([...correctOptions, -1]);
   };
 
   const handleDeleteQuestion = (questionIndex) => {
@@ -76,29 +84,40 @@ export const QuizProvider = ({ children }) => {
     newQuestions[questionIndex].options.splice(optionIndex, 1);
     setQuestions(newQuestions);
   };
+  const handleCorrectOptionChange = (event, questionIndex) => {
+    const newQuestions = [...questions];
+    newQuestions[questionIndex].correctOption = parseInt(event.target.value); // Convert the string value to an integer
+    setQuestions(newQuestions);
+  };
 
-  const handleSubmitQuiz = (event) => {
+  async function handleSubmitQuiz(event) {
     event.preventDefault();
-    const quizData = {
-      name: quizName,
-      description: quizDescription,
-      points: quizPoints,
-      timeLimit: quizTimeLimit,
-      questions: questions,
-    };
-    const db = getDatabase();
-    set(ref(db, "quiz"), quizData)
-      .then(() => {
+    const db = getFirestore();
+
+    try {
+      const docRef = await addDoc(collection(db, "quiz"), {
+        name: quizName,
+        description: quizDescription,
+        points: quizPoints,
+        timeLimit: quizTimeLimit,
+        questions: questions.map((question) => ({
+          text: question.text,
+          options: question.options,
+          correctOption: question.correctOption // <-- Add the correctOption field to each question
+        }))
+      }).then(() => {
         setQuizName("");
         setQuizDescription("");
         setQuizPoints(0);
         setQuizTimeLimit(0);
         setQuestions([]);
-      })
-      .catch((error) => {
-        console.log(error.message);
+        console.log("Quiz created successfully!")
       });
-  };
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
 
   return (
     <QuizContext.Provider
@@ -116,6 +135,7 @@ export const QuizProvider = ({ children }) => {
         handleAddQuestion,
         handleDeleteQuestion,
         handleOptionChange,
+        handleCorrectOptionChange,
         handleAddOption,
         handleDeleteOption,
         handleSubmitQuiz,
@@ -125,15 +145,5 @@ export const QuizProvider = ({ children }) => {
     </QuizContext.Provider>
   );
 };
-
-
-export const withQuizContext = (WrappedComponent) => {
-  return (props) => (
-    <QuizContext.Consumer>
-      {(quizContext) => <WrappedComponent {...quizContext} {...props} />}
-    </QuizContext.Consumer>
-  );
-};
-       
 
 

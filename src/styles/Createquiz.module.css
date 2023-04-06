@@ -9,6 +9,9 @@
 .left_section{
     width: 45rem;
 }
+.right_section{
+  padding-bottom: 5rem;
+}
 .quiz_container h1{
     text-align: center;
     margin-top: 5rem;
