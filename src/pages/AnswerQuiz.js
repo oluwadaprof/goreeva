@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import { useParams } from "react-router-dom";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore,  } from "firebase/firestore";
 // import classes from "../styles/Answers.module.css";
 import { collection, getDocs } from "firebase/firestore";
 
@@ -8,8 +8,8 @@ import { collection, getDocs } from "firebase/firestore";
 const AnswerTheQuestion = () => {
   const [quiz, setQuiz] = useState([]);
 
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedOptions, setSelectedOptions] = useState([]);
+//   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+//   const [selectedOptions, setSelectedOptions] = useState([]);
 
   //   const {  } = useParams();
 

@@ -22,6 +22,9 @@ h2 {
     border-radius: 50%;
 }
 
-.quiz_btn span {
+.quiz_btn .span {
+    color: black;
+}
+.quiz_btn .span:hover {
     color: white;
 }

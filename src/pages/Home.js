@@ -10,7 +10,7 @@ export default function Home() {
       <h2>It's Quiz Time</h2>
       <p>Lets get started...</p>
       <Button className={classes.quiz_btn} >
-       <Link to='/create-quiz'> Create Quiz</Link>
+       <Link to='/create-quiz' className={classes.span}> Create Quiz</Link>
       </Button>
     </div>
   );

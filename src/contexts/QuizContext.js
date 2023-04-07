@@ -3,6 +3,8 @@ import { getDatabase, ref, onValue, off } from "firebase/database";
 import { getFirestore } from "firebase/firestore";
 import { collection, addDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import "../firebase";
 const QuizContext = React.createContext();
@@ -114,8 +116,9 @@ export const QuizProvider = ({ children }) => {
         setQuizPoints(0);
         setQuizTimeLimit(0);
         setQuestions([]);
+        toast("Quiz Created Successfully!");
         navigate('/answer-quiz')
-        alert("Quiz created successfully!")
+      
       });
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
@@ -145,6 +148,7 @@ export const QuizProvider = ({ children }) => {
         handleSubmitQuiz,
       }}
     >
+        <ToastContainer />
       {children}
     </QuizContext.Provider>
   );
