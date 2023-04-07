@@ -10,7 +10,7 @@ export default function Quizz() {
       <h4>Question can have multiple answers</h4>
       <Answers/>
       <ProgressBar/>
-      <MiniPlayer/>
+      {/* <MiniPlayer/> */}
     </>
   );
 }

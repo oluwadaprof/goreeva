@@ -2,6 +2,7 @@ import React, { useState, useEffect,  useContext } from "react";
 import { getDatabase, ref, onValue, off } from "firebase/database";
 import { getFirestore } from "firebase/firestore";
 import { collection, addDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 import "../firebase";
 const QuizContext = React.createContext();
@@ -17,6 +18,8 @@ export const QuizProvider = ({ children }) => {
   const [quizTimeLimit, setQuizTimeLimit] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [correctOptions, setCorrectOptions] = useState(Array(questions.length).fill(-1));
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const db = getDatabase();
@@ -111,7 +114,8 @@ export const QuizProvider = ({ children }) => {
         setQuizPoints(0);
         setQuizTimeLimit(0);
         setQuestions([]);
-        console.log("Quiz created successfully!")
+        navigate('/answer-quiz')
+        alert("Quiz created successfully!")
       });
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {

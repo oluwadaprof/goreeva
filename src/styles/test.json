@@ -1,0 +1,28 @@
+{
+    "name": "Web Development",
+    "questions": [
+        {
+            "text": "What is the Internet?",
+            "correctOption": -1,
+            "options": [
+                "web",
+                "browser",
+                "net",
+                "bat"
+            ]
+        },
+        {
+            "options": [
+                "computer",
+                "software",
+                "javascript",
+                "linux"
+            ],
+            "correctOption": 2,
+            "text": "types of programming language"
+        }
+    ],
+    "description": "This quiz is to test your web development ablilities",
+    "points": "100",
+    "timeLimit": "10"
+}

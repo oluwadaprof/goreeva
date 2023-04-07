@@ -12,6 +12,7 @@ import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "../contexts/AuthContext";
 import { QuizProvider } from "../contexts/QuizContext";
 import CreateQuiz from "../pages/CreateQuiz";
+import AnswerQuiz from "../pages/AnswerQuiz";
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
             <Route path="/quiz" element={<Quizz />} />
             <Route path="/result" element={<Result />} />
             <Route path="/create-quiz" element={<CreateQuiz />} />
-
+            <Route path="/answer-quiz" element={<AnswerQuiz />} />
           </Route>
 
           <Route path="*" element={<Error />} />
