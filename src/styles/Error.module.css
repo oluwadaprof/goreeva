@@ -1,0 +1,21 @@
+.error {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.error_img {
+    height: 25rem;
+    width: 25rem;
+    margin-top: 2rem;
+    border-radius: 50%;
+}
+
+.link{
+    color: black;
+}
+.link:hover{
+    color:white;
+}

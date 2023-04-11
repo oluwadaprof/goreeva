@@ -8,7 +8,7 @@ export default function Nav() {
     <nav className={classes.nav}>
       <ul>
         <li>
-          <Link to='/' className={classes.brand}>
+          <Link to='/quiz-list' className={classes.brand}>
             <img src={logo} alt="Learn with Sumit Logo" />
             <h3>Learn with Isreal</h3>
           </Link>

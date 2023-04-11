@@ -1,6 +1,6 @@
 import Answers from '../components/Answers'
 import ProgressBar from '../components/ProgressBar'
-// import MiniPlayer from '../components/MiniPlayer'
+
 
 
 export default function Quizz() {

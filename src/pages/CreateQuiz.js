@@ -3,7 +3,6 @@ import { useQuizContext } from "../contexts/QuizContext";
 import classes from "../styles/Createquiz.module.css";
 
 const CreateQuiz = () => {
-
   const {
     quizName,
     quizDescription,
@@ -24,8 +23,14 @@ const CreateQuiz = () => {
     handleSubmitQuiz,
   } = useQuizContext();
 
+  if (!handleAddQuestion ) {
+    return
+  }
+
   return (
-    <form onSubmit={handleSubmitQuiz} className={classes.quiz_container}>
+  <>
+
+  <form onSubmit={handleSubmitQuiz} className={classes.quiz_container}>
       <h1>Create Quiz</h1>
       <section>
         <div className={classes.left_section}>
@@ -161,6 +166,7 @@ const CreateQuiz = () => {
         </div>
       </section>
     </form>
+  </>
   );
 };
 

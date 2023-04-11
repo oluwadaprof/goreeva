@@ -117,7 +117,7 @@ export const QuizProvider = ({ children }) => {
         setQuizTimeLimit(0);
         setQuestions([]);
         toast("Quiz Created Successfully!");
-        navigate('/answer-quiz')
+        navigate('/quiz-list')
       
       });
       console.log("Document written with ID: ", docRef.id);

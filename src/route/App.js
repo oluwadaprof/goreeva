@@ -13,29 +13,32 @@ import { AuthProvider } from "../contexts/AuthContext";
 import { QuizProvider } from "../contexts/QuizContext";
 import CreateQuiz from "../pages/CreateQuiz";
 import AnswerQuiz from "../pages/AnswerQuiz";
+import QuizList from "../pages/QuizList";
 
 function App() {
   return (
     <AuthProvider>
       <QuizProvider>
-      <Layout>
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route element={<PublicRoute />}>
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-          </Route>
+        <Layout>
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            {/* PUBLIC ROUTE */}
+            <Route element={<PublicRoute />}>
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<Login />} />
+            </Route>
+            {/* PRIVATE ROUTE */}
+            <Route element={<PrivateRoute />}>
+              <Route path="/quiz" element={<Quizz />} />
+              <Route path="/quiz-list" element={<QuizList/>} />
+              <Route path="/result" element={<Result />} />
+              <Route path="/create-quiz" element={<CreateQuiz />} />
+              <Route path="/answer-quiz" element={<AnswerQuiz />} />
+            </Route>
 
-          <Route element={<PrivateRoute />}>
-            <Route path="/quiz" element={<Quizz />} />
-            <Route path="/result" element={<Result />} />
-            <Route path="/create-quiz" element={<CreateQuiz />} />
-            <Route path="/answer-quiz" element={<AnswerQuiz />} />
-          </Route>
-
-          <Route path="*" element={<Error />} />
-        </Routes>
-      </Layout>
+            <Route path="*" element={<Error />} />
+          </Routes>
+        </Layout>
       </QuizProvider>
     </AuthProvider>
   );
