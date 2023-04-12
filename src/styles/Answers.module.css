@@ -6,6 +6,10 @@
     margin: 2rem 0;
     grid-auto-flow: column;
   }
+
+  .answers li{
+    list-style: none;
+  }
   
   @media only screen and (max-width: 1024px) {
     .answers {

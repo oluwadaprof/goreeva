@@ -1,32 +1,14 @@
 import classes from "../styles/QuizList.module.css";
-import React, { useState, useEffect } from "react";
-import { getFirestore } from "firebase/firestore";
-import { collection, getDocs } from "firebase/firestore";
+// import React, { useState, useEffect } from "react";
+// import { getFirestore } from "firebase/firestore";
+// import { collection, getDocs } from "firebase/firestore";
 import { Link } from "react-router-dom";
+import { useQuizContext } from "../contexts/QuizContext";
 
 export default function QuizList() {
-  const [quizList, setQuizList] = useState([]);
 
-  useEffect(() => {
-    const db = getFirestore();
-
-    async function fetchQuiz() {
-      try {
-        const querySnapshot = await getDocs(collection(db, "quiz"));
-        const quizzes = [];
-
-        querySnapshot.forEach((doc) => {
-          quizzes.push({ id: doc.id, ...doc.data() });
-        });
-
-        setQuizList(quizzes);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    fetchQuiz();
-  }, []);
+const {quizList} = useQuizContext()
+ 
 
   if (!quizList) {
     return <div>loading...</div>;
@@ -43,7 +25,7 @@ export default function QuizList() {
       ) : (
         <div className={classes.wrap_quizbox}>
           {quizList.map((list) => (
-            <Link to={`/answer-quiz:${list.id}`}>
+            <Link to={`/answer-quiz/:${list.id}`}>
               <div key={list.id} className={classes.quizbox}>
                 <h1>{list.name}</h1>
                 <p className={classes.span}>{list.description}</p>

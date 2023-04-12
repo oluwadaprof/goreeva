@@ -1,10 +1,10 @@
-import React, { useState, useEffect,  useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { getDatabase, ref, onValue, off } from "firebase/database";
 import { getFirestore } from "firebase/firestore";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "../firebase";
 const QuizContext = React.createContext();
@@ -19,7 +19,10 @@ export const QuizProvider = ({ children }) => {
   const [quizPoints, setQuizPoints] = useState(0);
   const [quizTimeLimit, setQuizTimeLimit] = useState(0);
   const [questions, setQuestions] = useState([]);
-  const [correctOptions, setCorrectOptions] = useState(Array(questions.length).fill(-1));
+  const [correctOptions, setCorrectOptions] = useState(
+    Array(questions.length).fill(-1)
+  );
+  const [quizList, setQuizList] = useState([]);
 
   const navigate = useNavigate();
 
@@ -61,7 +64,11 @@ export const QuizProvider = ({ children }) => {
 
   const handleAddQuestion = () => {
     const newQuestions = [...questions];
-    newQuestions.push({ text: "", options: ["", "", "", ""] , correctOption: -1});
+    newQuestions.push({
+      text: "",
+      options: ["", "", "", ""],
+      correctOption: -1,
+    });
     setQuestions(newQuestions);
     setCorrectOptions([...correctOptions, -1]);
   };
@@ -89,27 +96,31 @@ export const QuizProvider = ({ children }) => {
     newQuestions[questionIndex].options.splice(optionIndex, 1);
     setQuestions(newQuestions);
   };
+
   const handleCorrectOptionChange = (event, questionIndex) => {
     const newQuestions = [...questions];
     newQuestions[questionIndex].correctOption = parseInt(event.target.value); // Convert the string value to an integer
     setQuestions(newQuestions);
   };
 
+  //handles submit event to store quiz data
   async function handleSubmitQuiz(event) {
     event.preventDefault();
     const db = getFirestore();
 
     try {
+      //sends all quiz data and questions into database
       const docRef = await addDoc(collection(db, "quiz"), {
         name: quizName,
         description: quizDescription,
         points: quizPoints,
         timeLimit: quizTimeLimit,
+        //maps questions, correct options, text, and options into databaase
         questions: questions.map((question) => ({
           text: question.text,
           options: question.options,
-          correctOption: question.correctOption // <-- Add the correctOption field to each question
-        }))
+          correctOption: question.correctOption, // <-- Add the correctOption field to each question
+        })),
       }).then(() => {
         setQuizName("");
         setQuizDescription("");
@@ -117,8 +128,8 @@ export const QuizProvider = ({ children }) => {
         setQuizTimeLimit(0);
         setQuestions([]);
         toast("Quiz Created Successfully!");
-        navigate('/quiz-list')
-      
+        //navigate to quiz-list page after successful creation of quiz
+        navigate("/quiz-list");
       });
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
@@ -126,9 +137,32 @@ export const QuizProvider = ({ children }) => {
     }
   }
 
+  // This function fetches the quiz from the firestore database
+  useEffect(() => {
+    const db = getFirestore();
+
+    async function fetchQuiz() {
+      try {
+        const querySnapshot = await getDocs(collection(db, "quiz"));
+        const quizzes = [];
+        //Push the quiz fetched into the quizzes empty array
+        querySnapshot.forEach((doc) => {
+          quizzes.push({ id: doc.id, ...doc.data() });
+        });
+        //Store the quiz fetched in the quizlist state
+        setQuizList(quizzes);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    //Function call to fetch quiz
+    fetchQuiz();
+  }, []);
+
   return (
     <QuizContext.Provider
       value={{
+        quizList,
         quizName,
         quizDescription,
         quizPoints,
@@ -148,10 +182,8 @@ export const QuizProvider = ({ children }) => {
         handleSubmitQuiz,
       }}
     >
-        <ToastContainer />
+      <ToastContainer />
       {children}
     </QuizContext.Provider>
   );
 };
-
-
