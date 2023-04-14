@@ -23,6 +23,7 @@ export const QuizProvider = ({ children }) => {
     Array(questions.length).fill(-1)
   );
   const [quizList, setQuizList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false)
 
   const navigate = useNavigate();
 
@@ -67,10 +68,10 @@ export const QuizProvider = ({ children }) => {
     newQuestions.push({
       text: "",
       options: ["", "", "", ""],
-      correctOption: -1,
+      correctOption: 0,
     });
     setQuestions(newQuestions);
-    setCorrectOptions([...correctOptions, -1]);
+    setCorrectOptions([...correctOptions, 0]);
   };
 
   const handleDeleteQuestion = (questionIndex) => {
@@ -143,6 +144,7 @@ export const QuizProvider = ({ children }) => {
 
     async function fetchQuiz() {
       try {
+        setIsLoading(true)
         const querySnapshot = await getDocs(collection(db, "quiz"));
         const quizzes = [];
         //Push the quiz fetched into the quizzes empty array
@@ -151,17 +153,24 @@ export const QuizProvider = ({ children }) => {
         });
         //Store the quiz fetched in the quizlist state
         setQuizList(quizzes);
+        setIsLoading(false)
+
+       
       } catch (err) {
         console.log(err);
+        setIsLoading(false)
       }
     }
     //Function call to fetch quiz
     fetchQuiz();
   }, []);
 
+
   return (
     <QuizContext.Provider
       value={{
+        isLoading,
+        setIsLoading,
         quizList,
         quizName,
         quizDescription,

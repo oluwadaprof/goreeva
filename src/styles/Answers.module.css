@@ -19,7 +19,7 @@
   }
   
   .answer {
-    width: 100%;
+    width: 70%;
     height: 58px;
     background: var(--questionBG);
     display: flex;
@@ -28,6 +28,11 @@
     padding: 0 1.1rem;
     cursor: pointer;
     border-radius: 4px;
+  }
+
+  .quizbtn{
+    margin-top: 20%;
+    text-align: center;
   }
   
   .answer:hover {
@@ -40,6 +45,12 @@
   
   .answer span {
     width: 100%;
+  }
+
+ .answer_groupBtn{
+    display: flex;
+    width: 100%;
+justify-content: space-between;
   }
   
   .answer span:nth-of-type(2) {
@@ -56,4 +67,44 @@
   .wrong {
     background: var(--dangerRed) !important;
     font-weight: 600;
+  }
+
+  .answer_btn{
+    font-size: 1.2vw;
+    
+  }
+ .submit{
+  display: flex;
+  justify-content: flex-end;
+  align-items: left;
+  margin-top: -1.4rem;
+  
+}
+
+.selected_option{
+  color: red;
+}
+  
+
+  @media screen and (max-width:1024px){
+    .answer_btn{
+      font-size: 1.2rem;
+    }
+  }
+  @media screen and (max-width:375px){
+    .answer_btn{
+      font-size: 1rem;
+    }
+    .submit{
+      margin-top: -1.2rem;
+    }
+  }
+  @media screen and (max-width:320px){
+    .answer_btn{
+      font-size: .8rem;
+    }
+
+    .submit{
+      margin-top: -1rem;
+    }
   }
