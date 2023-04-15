@@ -3,7 +3,7 @@
     "questions": [
         {
             "text": "What is the Internet?",
-            "correctOption": -1,
+            "correctOption": 1,
             "options": [
                 "web",
                 "browser",

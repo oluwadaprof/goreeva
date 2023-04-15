@@ -166,9 +166,19 @@ export const QuizProvider = ({ children }) => {
   }, []);
 
 
+
+
   return (
     <QuizContext.Provider
       value={{
+        // score,
+        // handleOptionSelect,
+        // handleNextQuestion,
+        // handlePreviousQuestion,
+        // currentQuestion,
+        // selectedOption,
+        // handleSubmitQuizResult,
+        // currentQuestionIndex,
         isLoading,
         setIsLoading,
         quizList,

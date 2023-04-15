@@ -6,12 +6,62 @@ import Button from "../components/Button";
 // import ProgressBar from "../components/ProgressBar";
 
 const AnswerTheQuestion = () => {
+
+  const { quizList } =useQuizContext()
+
+   //fetch the current id of the quiz
+   const { id } = useParams();
+   //check if the id exist in the quizlist
+   const quiz = quizList?.find((quiz) => quiz.id === id.substring(1));
+   console.log(id.substring(1));
+  
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [score, setScore] = useState(0);
 
-  //fetching the quiz data from the quiz context
-  const { quizList } = useQuizContext();
+  const handleOptionSelect = (optionIndex) => {
+    const newSelectedOptions = [...selectedOptions];
+    newSelectedOptions[currentQuestionIndex] = optionIndex;
+    setSelectedOptions(newSelectedOptions);
+    console.log(`Selected option: ${optionIndex}`);
+  };
+  
+
+  const handleNextQuestion = () => {
+    if (currentQuestionIndex < quiz.questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
+  };
+
+
+  const handlePreviousQuestion = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+  };
+
+  const currentQuestion = quiz.questions[currentQuestionIndex];
+  const selectedOption = selectedOptions[currentQuestionIndex];
+
+
+  const handleSubmitQuizResult = () => {
+    let totalScore = 0;
+  
+    // Calculate the score for each question
+    quiz.questions.forEach((question, index) => {
+      const selectedOptionIndex = selectedOptions[index];
+      const correctOptionIndex = question.correctOption;
+  
+      if (selectedOptionIndex !== undefined && selectedOptionIndex === correctOptionIndex) {
+        totalScore += 1;
+      }
+    });
+  
+    // Display the score if all questions are answered
+    if (selectedOptions.length === quiz.questions.length) {
+      setScore(totalScore);
+    }
+  };
 
   //to prevent user from reloading the page
   useEffect(() => {
@@ -26,48 +76,7 @@ const AnswerTheQuestion = () => {
     };
   }, []);
 
-  //fetch the current id of the quiz
-  const { id } = useParams();
-  //check if the id exist in the quizlist
-  const quiz = quizList?.find((quiz) => quiz.id === id.substring(1));
-  console.log(id.substring(1));
-
-  const handleOptionSelect = (optionIndex) => {
-    const newSelectedOptions = [...selectedOptions];
-    newSelectedOptions[currentQuestionIndex] = optionIndex;
-    setSelectedOptions(newSelectedOptions);
-    console.log(`Selected option: ${optionIndex}`);
-  };
-
-  const handleNextQuestion = () => {
-    if (currentQuestionIndex < quiz.questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    }
-  };
-
-  const handleSubmitQuiz = () => {
-    const currentQuestion = quiz.questions[currentQuestionIndex];
-    const selectedOption = selectedOptions[currentQuestionIndex];
-    const correctOption = currentQuestion.correctOption;
-
-    if (selectedOption === correctOption) {
-    }
-
-    if (currentQuestionIndex < quiz.questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    }
-
-    console.log(score);
-  };
-
-  const handlePreviousQuestion = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
-    }
-  };
-
-  const currentQuestion = quiz.questions[currentQuestionIndex];
-  const selectedOption = selectedOptions[currentQuestionIndex];
+ 
 
   return (
     <div>
@@ -109,7 +118,7 @@ const AnswerTheQuestion = () => {
         {currentQuestionIndex === quiz.questions.length - 1 && (
           <Button
             className={`${classes.answer_btn} ${classes.submit}`}
-            onClick={handleSubmitQuiz}
+            onClick={handleSubmitQuizResult}
           >
             Submit Quiz
           </Button>
@@ -117,10 +126,7 @@ const AnswerTheQuestion = () => {
       </Link>
 
       {/* <ProgressBar/> */}
-      <p>
-        {" "}
-        Score: {score} / {quiz.questions.length}
-      </p>
+      <p> Score: {score}/ {quiz.questions.length}</p>
     </div>
   );
 };
