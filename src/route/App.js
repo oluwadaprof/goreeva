@@ -31,9 +31,9 @@ function App() {
             <Route element={<PrivateRoute />}>
               <Route path="/quiz" element={<Quizz />} />
               <Route path="/quiz-list" element={<QuizList/>} />
-              <Route path="/result" element={<Result />} />
+              <Route path="/result/:id" element={<Result />} />
               <Route path="/create-quiz" element={<CreateQuiz />} />
-              <Route path="/answer-quiz/:id" element={<AnswerQuiz />}>
+              <Route path="/answer-quiz/:answerId" element={<AnswerQuiz />}>
               {/* <Route path="/:id" element={<AnswerQuiz />} /> */}
               </Route>
             </Route>

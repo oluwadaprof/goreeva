@@ -3,17 +3,24 @@ import { useParams, Link } from "react-router-dom";
 import classes from "../styles/Answers.module.css";
 import { useQuizContext } from "../contexts/QuizContext";
 import Button from "../components/Button";
+import Modal from "../components/Modal";
+import { useNavigate } from 'react-router-dom';
+
 // import ProgressBar from "../components/ProgressBar";
 
 const AnswerTheQuestion = () => {
 
+  const navigate = useNavigate()
+
+  const [close, setClose] = useState(false)
+
   const { quizList } =useQuizContext()
 
    //fetch the current id of the quiz
-   const { id } = useParams();
+   const { answerId } = useParams();
    //check if the id exist in the quizlist
-   const quiz = quizList?.find((quiz) => quiz.id === id.substring(1));
-   console.log(id.substring(1));
+   const quiz = quizList?.find((quiz) => quiz.id === answerId.substring(1));
+   console.log(answerId.substring(1));
   
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState([]);
@@ -76,7 +83,13 @@ const AnswerTheQuestion = () => {
     };
   }, []);
 
- 
+ const handleClose =()=>{
+  setClose(false)
+  navigate(`/result/${score}-${quiz.questions.length}`)
+ }
+ const handleOpen =()=>{
+  setClose(true)
+ }
 
   return (
     <div>
@@ -118,7 +131,7 @@ const AnswerTheQuestion = () => {
         {currentQuestionIndex === quiz.questions.length - 1 && (
           <Button
             className={`${classes.answer_btn} ${classes.submit}`}
-            onClick={handleSubmitQuizResult}
+            onClick={()=>{handleSubmitQuizResult(); handleOpen()}}
           >
             Submit Quiz
           </Button>
@@ -126,7 +139,11 @@ const AnswerTheQuestion = () => {
       </Link>
 
       {/* <ProgressBar/> */}
-      <p> Score: {score}/ {quiz.questions.length}</p>
+      {/* <p> Score: {score}/ {quiz.questions.length}</p> */}
+
+     {
+      close &&  <Modal score={score} quizlength={quiz.questions.length} onClose={handleClose} />
+     }
     </div>
   );
 };
